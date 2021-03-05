@@ -8,3 +8,5 @@ include_directories(libs/fire-hpp/include)
 add_executable(Entropy app/entropy.cxx)
 
 add_executable(Compact app/compact.cxx)
+
+add_executable(Decompact app/decompact.cxx)
