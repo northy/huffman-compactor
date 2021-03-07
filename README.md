@@ -17,6 +17,6 @@ cd huffman-compactor && mkdir build && cd build && cmake ..
 make -j
 ```
 
-The executables take the -f argument, which takes a file path as input (except for Decompact, that also takes the tree file path as input).
+The executables take the -f argument, which takes a file path as input (except for Decompact, that also takes the tree file path as input with -t).
 
 Additionally, you can use -p=0 to supress log printing.
