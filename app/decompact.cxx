@@ -17,10 +17,6 @@ struct Tree {
     char byte;
     std::unique_ptr<Tree> left, right;
 
-    Tree(Tree* p, char side, char b): byte(b) {
-        if (side) p->right.reset(this);
-        else p->left.reset(this);
-    }
     Tree(char b): byte(b) {}
 };
 
@@ -60,8 +56,12 @@ int fired_main(std::string file_path = fire::arg({"--file-path","-f"}), std::str
     q.push(q_item(root,1,2));
 
     while (!q.empty()) {
-        auto &[p,side,index] = q.front(); q.pop();
-        Tree* self = new Tree(p,side,tree_positions[index]);
+        auto [p,side,index] = q.front(); q.pop();
+
+        Tree* self = new Tree(tree_positions[index]);
+        if (side) p->right.reset(self);
+        else p->left.reset(self);
+        
         if (tree_positions[index]==0 && index!=zeroindex && index*2+2<tree_positions.size()) {
             q.push(q_item(self,0,index*2+1));
             q.push(q_item(self,1,index*2+2));
