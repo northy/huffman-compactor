@@ -4,8 +4,11 @@
 #include <map>
 #include <limits>
 #include <cmath>
+#include <iomanip>
 
 #include <fire-hpp/fire.hpp>
+
+#include <boost/lexical_cast.hpp>
 
 int fired_main(std::string file_path = fire::arg({"--file-path","-f"})) {
     std::ifstream file(file_path, std::fstream::binary);
@@ -33,8 +36,7 @@ int fired_main(std::string file_path = fire::arg({"--file-path","-f"})) {
         entropy-=p*log2(p);
     }
 
-    std::cout << "Entropy: " << entropy << "\n";
-    std::cout << "Metric entropy: " << entropy/total_bytes << std::endl;
+    std::cout << "Entropy: " << boost::lexical_cast<std::string>(entropy) << "\n" << "Metric entropy: " << boost::lexical_cast<std::string>(entropy/total_bytes) << std::endl;
 
     return 0;
 }
