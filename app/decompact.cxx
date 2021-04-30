@@ -70,7 +70,7 @@ int fired_main(std::string file_path = fire::arg({"--file-path","-f"}), std::str
     tree_file.close();
 
     //read file
-    if (print.value_or(1)) std::cout << "Huffman message: ";
+    if (print.value_or(0)) std::cout << "Huffman message: ";
 
     unsigned char buf_pos=3;
     file >> buf;
@@ -83,7 +83,7 @@ int fired_main(std::string file_path = fire::arg({"--file-path","-f"}), std::str
 
     do {
         while (buf_pos!=8) {
-            if (print.value_or(1)) std::cout << binary_buf[7-buf_pos];
+            if (print.value_or(0)) std::cout << binary_buf[7-buf_pos];
             if (binary_buf[7-buf_pos])
                 traversing = traversing->right.get();
             else
@@ -100,7 +100,7 @@ int fired_main(std::string file_path = fire::arg({"--file-path","-f"}), std::str
     } while (file >> buf);
 
     while (buf_pos!=8-trailing) {
-        if (print.value_or(1)) std::cout << binary_buf[7-buf_pos];
+        if (print.value_or(0)) std::cout << binary_buf[7-buf_pos];
         if (binary_buf[7-buf_pos])
             traversing = traversing->right.get();
         else
@@ -112,11 +112,11 @@ int fired_main(std::string file_path = fire::arg({"--file-path","-f"}), std::str
         }
         buf_pos++;
     }
-    if (print.value_or(1)) std::cout << std::endl;
+    if (print.value_or(0)) std::cout << std::endl;
 
     file.close();
 
-    if (print.value_or(1)) std::cout << "Original message: " << original << std::flush;
+    if (print.value_or(0)) std::cout << "Original message: " << original << std::flush;
 
     //write tree
     std::ofstream out_plain("out.plain", std::fstream::binary);

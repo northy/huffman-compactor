@@ -58,15 +58,15 @@ int fired_main(std::string file_path = fire::arg({"--file-path","-f"}), fire::op
     //read file + save byte frequency
     std::unordered_map<char,uint64_t> freq;
 
-    if (print.value_or(1)) std::cout << "ASCII: ";
+    if (print.value_or(0)) std::cout << "ASCII: ";
 
     char buf;
     while (file >> buf) {
-        if (print.value_or(1)) std::cout << std::bitset<8>(buf);
+        if (print.value_or(0)) std::cout << std::bitset<8>(buf);
         freq[buf]++;
         total_bytes++;
     }
-    if (print.value_or(1)) std::cout << " (" << total_bytes*8 << ')' << std::endl;
+    if (print.value_or(0)) std::cout << " (" << total_bytes*8 << ')' << std::endl;
 
     //create tree leaves
     std::priority_queue<Tree*, std::vector<Tree*>, Cmp> leaves;
@@ -98,7 +98,7 @@ int fired_main(std::string file_path = fire::arg({"--file-path","-f"}), fire::op
 
             path[*t->byte]=p;
             total_bits_huffman+=p.size()*freq[*t->byte];
-            if (print.value_or(1)) std::cout << *t->byte << ": " << path[*t->byte] << '\n';
+            if (print.value_or(0)) std::cout << std::bitset<8>(*t->byte) << ": " << path[*t->byte] << '\n';
             continue;
         }
 
@@ -112,11 +112,11 @@ int fired_main(std::string file_path = fire::arg({"--file-path","-f"}), fire::op
     char buf_pos=3;
 
     //print the paths + output to file
-    if (print.value_or(1)) std::cout << "Huffman: ";
+    if (print.value_or(0)) std::cout << "Huffman: ";
 
     file.clear(); file.seekg(0);
     while (file >> buf) {
-        if (print.value_or(1)) std::cout << path[buf];
+        if (print.value_or(0)) std::cout << path[buf];
         for (const char c : path[buf]) {
             binary_buf[7-(buf_pos++)]=c-'0';
             if (buf_pos==8) {
@@ -127,7 +127,7 @@ int fired_main(std::string file_path = fire::arg({"--file-path","-f"}), fire::op
     }
     if (buf_pos!=0)
         out_file << (unsigned char)binary_buf.to_ulong();
-    if (print.value_or(1)) std::cout << " (" << total_bits_huffman << ')' << std::endl;
+    if (print.value_or(0)) std::cout << " (" << total_bits_huffman << ')' << std::endl;
 
     file.close();
     out_file.close();
